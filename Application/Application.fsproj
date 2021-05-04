@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Domain.fs"/>
+    <Compile Include="Filestore.fs"/>
+    <Compile Include="Service.fs"/>
+    <Compile Include="Program.fs"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DocOpt.Core\DocOpt.Core.fsproj" />
+  </ItemGroup>
+
+</Project>

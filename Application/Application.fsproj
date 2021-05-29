@@ -6,10 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Domain.fs"/>
-    <Compile Include="Filestore.fs"/>
-    <Compile Include="Service.fs"/>
-    <Compile Include="Program.fs"/>
+    <Compile Include="Domain.fs" />
+    <Compile Include="Events.fs" />
+    <Compile Include="Queries.fs" />
+    <Compile Include="Commands.fs" />
+    <Compile Include="Filestore.fs" />
+    <Compile Include="Service.fs" />
+    <Compile Include="Program.fs" />
   </ItemGroup>
 
   <ItemGroup>

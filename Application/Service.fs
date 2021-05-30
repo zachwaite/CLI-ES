@@ -45,8 +45,8 @@ let handleQuery (path: string) (query: Query) : ServiceResponse =
     let projection = project history query
 
     match projection with
-    | AllEvents eventList ->
-        eventList
+    | AllEvents enumeratedEventList ->
+        enumeratedEventList
         |> Seq.ofList
         |> String.concat "\n"
         |> QuerySuccess

@@ -1,5 +1,6 @@
 module Events
 
-type AddTodoMsg = { Name: string }
+open Domain
 
-type Event = AddTodoEvt of AddTodoMsg
+type Event =
+    | AddTodoEvt of TodoItem

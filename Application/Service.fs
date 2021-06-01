@@ -23,7 +23,7 @@ let responseToString (response: ServiceResponse) : string =
 
 let handleCommand (path: string) (command: Command) : ServiceResponse =
     let history = Filestore.getAllEvents path
-    let hydrateStateResult = history |> hydrate (init ())
+    let hydrateStateResult = history |> hydrate (initialState ())
 
     match hydrateStateResult with
     | Ok state ->
@@ -37,8 +37,8 @@ let handleCommand (path: string) (command: Command) : ServiceResponse =
             match storageResult with
             | Ok _ -> CommandSuccess
             | Error (Filestore.StoreError err) -> CommandFailure err
-        | Error (TodoListError err) -> CommandFailure err
-    | Error (TodoListError err) -> CommandFailure err
+        | Error (DomainError err) -> CommandFailure err
+    | Error (DomainError err) -> CommandFailure err
 
 let handleQuery (path: string) (query: Query) : ServiceResponse =
     let history = Filestore.getAllEvents path

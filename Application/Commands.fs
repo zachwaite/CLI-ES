@@ -3,22 +3,24 @@ module Commands
 open Events
 open Domain
 
-type Command = AddTodoCmd of AddTodoMsg
-type DecisionResult = Result<Event list, TodoListError>
+type Command =
+    | AddTodoCmd of TodoItem
+type DecisionResult = Result<Event list, DomainError>
 
-let init () = List.empty<TodoItem>
-
-let evolve (state: TodoItem list) (evt: Event) : TodoResult =
+let evolve (state: TodoItem list) (evt: Event) : DomainResult =
     match evt with
-    | AddTodoEvt msg -> TodoItem msg.Name |> addTodoItem state
+    | AddTodoEvt item -> item |> addTodoItem state
 
-let evolve' (stateResult: TodoResult) (evt: Event) : TodoResult =
-    match stateResult with
-    | Ok state -> evolve state evt
-    | Error e -> Error e
 
-let hydrate (state: TodoItem list) (events: Event list) : TodoResult =
-    events |> List.fold evolve' (Ok state)
+let initialState () = List.empty<TodoItem>
+
+let hydrate (init: TodoItem list) (events: Event list) : DomainResult =
+    let liftEvolve rs evt =
+        match rs with
+        | Ok state -> evolve state evt
+        | Error err -> Error err
+
+    events |> List.fold liftEvolve (Ok init)
 
 let assertHydrate (state: TodoItem list) (events: Event list) : DecisionResult =
     let rs = hydrate state events

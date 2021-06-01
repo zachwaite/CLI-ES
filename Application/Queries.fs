@@ -9,7 +9,7 @@ type Projection =
 
 let fromEvent (index: int) (event: Event) : string =
     match event with
-    | AddTodoEvt args -> $"{index + 1}: {args.Name}"
+    | AddTodoEvt ( Domain.TodoItem item ) -> $"{index + 1}: {item}"
 
 let eventsToProject (events: Event list) : string list =
     events |> List.mapi fromEvent

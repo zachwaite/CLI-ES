@@ -1,21 +1,19 @@
 module Domain
 
 type TodoItem = TodoItem of string
-
-type TodoListError = TodoListError of string
-exception TodoListException of string
-type TodoResult = Result<TodoItem list, TodoListError>
+type DomainError = DomainError of string
+type DomainResult = Result<TodoItem list, DomainError>
 
 
 let (|LessThanFiveItems|_|) (state: TodoItem list) =
     let listLength = List.length state
     if listLength < 5 then Some() else None
 
-let validate (state: TodoItem list) : TodoResult =
+let validate (state: TodoItem list) : DomainResult =
     match state with
     | LessThanFiveItems _ -> Ok state
-    | _ -> Error(TodoListError "Too many items to do! Can't add any more")
+    | _ -> Error(DomainError "Too many items to do! Can't add any more")
 
-let addTodoItem (state: TodoItem list) (item: TodoItem) : TodoResult =
+let addTodoItem (state: TodoItem list) (item: TodoItem) : DomainResult =
     let newState = state @ [ item ]
     validate newState

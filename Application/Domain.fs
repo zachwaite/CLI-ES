@@ -1,6 +1,6 @@
 module Domain
 
-type TodoItem = TodoItem of string
+type TodoItem = { Key: string; Value: string }
 type DomainError = DomainError of string
 type DomainResult = Result<TodoItem list, DomainError>
 
@@ -17,3 +17,11 @@ let validate (state: TodoItem list) : DomainResult =
 let addTodoItem (state: TodoItem list) (item: TodoItem) : DomainResult =
     let newState = state @ [ item ]
     validate newState
+
+let removeTodoItemByKey (state: TodoItem list) (key: string): DomainResult =
+    let maybeFound = state |> List.tryFind (fun item -> item.Key = key)
+    match maybeFound with
+    | Some _ -> validate (state |> List.filter (fun item -> item.Key <> key))
+    | None -> Error ( DomainError "Key not found" )
+    
+    

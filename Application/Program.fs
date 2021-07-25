@@ -47,12 +47,15 @@ module Cli =
 
     let (|Add|_|) (args: Docopt.Arguments.Dictionary) =
         if args.ContainsKey("add") then
-            let todoItem = Domain.TodoItem ( getRequiredArg args "<item>")
+            let todoItem =
+                { Domain.TodoItem.Key = System.Random().Next().ToString()
+                  Domain.TodoItem.Value = (getRequiredArg args "<item>") }
+
             let path = getRequiredArg args "--path"
-            Some(path, Commands.AddTodoCmd todoItem )
+            Some(path, Commands.AddTodoCmd todoItem)
         else
             None
-            
+
     let (|Get|_|) (args: Docopt.Arguments.Dictionary) =
         if args.ContainsKey("get") then
             let path = getRequiredArg args "--path"
